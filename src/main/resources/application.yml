@@ -1,0 +1,25 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: shift-control-fingerprints
+  config:
+    import:
+      - optional:file:${user.dir}/.env.properties
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  liquibase:
+    enabled: true
+  security:
+    oauth2.resourceserver.jwt:
+      issuer-uri: ${AUTH_URL}
+      jwk-set-uri: ${AUTH_URL}/oauth2/jwks
+auth.url: ${AUTH_URL}
