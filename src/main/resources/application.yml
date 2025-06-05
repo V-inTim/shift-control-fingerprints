@@ -23,3 +23,4 @@ spring:
       issuer-uri: ${AUTH_URL}
       jwk-set-uri: ${AUTH_URL}/oauth2/jwks
 auth.url: ${AUTH_URL}
+external.enterprise-service.url: ${ENTERPRISE_URL}
