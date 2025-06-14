@@ -1,0 +1,75 @@
+@startuml
+interface com.example.shift_control_fingerprints.repository.FingerprintRepository {
+~ List<Fingerprint> findAllByEnterpriseId(Long)
+}
+
+class com.example.shift_control_fingerprints.exception.EnterpriseException {
+}
+class com.example.shift_control_fingerprints.service.FingerprintService {
+- FingerprintRepository fingerprintRepository
+- AuthUtils authUtils
++ FingerprintIdDto create(FingerprintDto)
++ FingerprintDto getTemplate(Long)
++ List<FingerprintIdDto> getAllId()
++ List<FingerprintIdDto> getAllIdByEnterpriseId(Long)
++ void delete(Long)
+}
+
+
+class com.example.shift_control_fingerprints.entity.Fingerprint {
+- Long id
+- Long employeeId
+- Long enterpriseId
+- byte[] template
+- LocalDateTime createdAt
+}
+
+class com.example.shift_control_fingerprints.permission.FingerprintPermission {
+- WebClient webClient
+- AuthUtils authUtils
+- FingerprintRepository fingerprintRepository
++ boolean hasAccessToEnterpriseByFingerPrintId(Long)
++ boolean hasAccessToEnterpriseByEnterpriseId(Long)
++ boolean hasAccessToEnterprise()
+- boolean getIsOwner(Long)
+}
+
+
+class com.example.shift_control_fingerprints.dto.FingerprintDto {
+- String template
+- Long employeeId
+}
+
+class com.example.shift_control_fingerprints.dto.FingerprintIdDto {
+- Long id
+- Long employeeId
+}
+
+class com.example.shift_control_fingerprints.ShiftControlFingerprintsApplication {
++ {static} void main(String[])
+}
+
+class com.example.shift_control_fingerprints.security.AuthUtils {
++ UUID getCurrentUserId()
++ Long getEnterpriseId()
+}
+
+class com.example.shift_control_fingerprints.controller.FingerprintController {
+- FingerprintService fingerprintService
++ ResponseEntity<FingerprintIdDto> create(FingerprintDto)
++ ResponseEntity<FingerprintDto> get(Long)
++ ResponseEntity<List<FingerprintIdDto>> getAllId()
++ ResponseEntity<List<FingerprintIdDto>> getAllByEnterpriseId(Long)
++ ResponseEntity<Void> delete(Long)
+}
+
+
+class com.example.shift_control_fingerprints.dto.OwnershipDto {
+- boolean isOwner
+}
+
+
+
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.shift_control_fingerprints.repository.FingerprintRepository
+com.example.shift_control_fingerprints.exception.RuntimeException <|-- com.example.shift_control_fingerprints.exception.EnterpriseException
+@enduml
